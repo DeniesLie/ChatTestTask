@@ -1,5 +1,5 @@
+using Application.Hubs;
 using WebApi.HostConfigurations;
-using WebApi.Hubs;
 using WebApi.ServicesInstallers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +9,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAuthenticationWithIdentityServer(builder.Configuration);
+builder.Services.AddCorsWithConfiguration(builder.Configuration, builder.Environment);
+builder.Services.AddFluentValidationWithValidatorsInAssembly();
+
 builder.Services.InstallServices(builder.Configuration);
 
 var app = builder.Build();
@@ -24,6 +27,7 @@ app.ConfigureCustomExceptionMiddleware();
 
 app.UseHttpsRedirection();
 
+app.UseCors("AngularClientPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 

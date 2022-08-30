@@ -1,0 +1,10 @@
+html, body { height: 100%; }
+body { margin: 0; font-size: initial ;font-family: Roboto, "Helvetica Neue", sans-serif; }
+a { text-decoration: none; color: white}
+
+.profile-icon 
+{
+    background-color: rgb(23, 176, 133);
+    border-radius: 50%;
+    padding: 7px 9px;
+}

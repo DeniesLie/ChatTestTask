@@ -1,0 +1,23 @@
+<div class="messages-wrapper">
+    <div class="chats-preview-sidebar">
+        <app-chat-preview 
+            *ngFor="let chat of chatsService.chats" 
+            [chat]="chat"
+            (click)="onChatSelect(chat)">
+        </app-chat-preview>
+    </div>
+    <div class="chat-window-wrapper">
+        <app-chat-window 
+            *ngIf="chatsService.selectedChat" 
+            [chat]="chatsService.selectedChat">
+        </app-chat-window>
+        <div class="select-chat-message" *ngIf="!chatsService.selectedChat">
+            <span *ngIf="chatsService.chats.length != 0">
+                Select a chat to start messaging 💬
+            </span>
+            <div class="no-chats-message" *ngIf="chatsService.chats.length == 0">
+                <p> Nobody has written messages to you yet 🤔</p>
+            </div>
+        </div>
+    </div>
+</div>

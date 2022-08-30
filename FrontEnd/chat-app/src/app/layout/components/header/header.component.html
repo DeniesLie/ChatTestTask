@@ -1,0 +1,33 @@
+<div class="header-wrapper">
+    <div class="left-column column">
+        <div class="title-wrapper">
+            Chat
+        </div>
+        <div class="links-wrapper">
+            <a href="https://github.com/DeniesLie/ChatTestTask">
+            <div class="link-item">
+                <mat-icon color="accent">code</mat-icon> GitHub
+            </div>
+            </a>
+        </div>
+    </div>
+    <div class="empty-column column"></div>
+    <div class="right-column column">
+        <div class="auth-actions-wrapper">
+            <button mat-raised-button color="primary"
+                    *ngIf="!authService.isAuthorized()"
+                    (click)="onLogin()">
+                Login
+            </button>
+            <button mat-raised-button color="primary"
+                *ngIf="authService.isAuthorized()"
+                (click)="onLogout()">
+                Logout
+            </button>
+        </div>
+        <div class="profile-icon-wrapper"
+             *ngIf="authService.isAuthorized()">
+            <div class="profile-icon">{{profileLetters}}</div>
+        </div>
+    </div>
+</div>

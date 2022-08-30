@@ -1,0 +1,35 @@
+.chat-preview-wrapper 
+{
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    transition: 0.3s;
+    border-bottom: solid 1px #673ab7;
+}
+
+.chat-preview-wrapper:hover {
+    background-color: #2d2dac33;
+}
+
+.chat-info 
+{
+    display: flex;
+    flex-direction: column;
+    margin: 0 10px;
+}
+
+.chat-name 
+{
+    font-size: initial;
+    font-weight: 600;
+}
+
+.last-message 
+{
+    color: rgb(87, 45, 184);
+}
+
+.sender 
+{
+    font-weight: 500;
+}

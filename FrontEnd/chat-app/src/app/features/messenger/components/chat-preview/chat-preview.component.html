@@ -1,0 +1,13 @@
+<div class="chat-preview-wrapper">
+    <div class="chat-info">
+        <span class="chat-name">{{chat?.name}}</span>
+        <div class="last-message">
+            <span *ngIf="chat?.lastMessage?.senderName" class="sender">
+                {{chat?.lastMessage?.senderName + ': '}}
+            </span>
+            <span *ngIf="chat?.lastMessage?.text" class="message">
+                {{chat?.lastMessage?.text}}
+            </span>
+        </div>
+    </div>
+</div>

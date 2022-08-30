@@ -1,0 +1,88 @@
+<div class="chat-window">
+    <div class="chat-window-header">
+        <div class="chat-name">{{chat?.name}}</div>
+    </div>
+
+    <div *ngIf="chat?.messages" class="chat-window-messages" #messagesContainer>
+        <app-message
+            *ngFor="let message of chat?.messages"
+            attr.id="messsage-{{message.id}}"
+            [ngClass]="{'my-message': message.senderId == authService.getUserId()}"
+            [message]="message"
+            observeVisibility
+            (visible)="onReadMessage(message)"
+            (contextmenu)="onRightClickMessage($event, message)">
+        </app-message>
+    </div>
+ 
+    <!-- an hidden div is created to set the position of appearance of the menu--> 
+    <div style="visibility: hidden; position: fixed;" 
+    [style.left]="messageMenuPosition.x" 
+    [style.top]="messageMenuPosition.y" 
+    [matMenuTriggerFor]="aboveMenu"></div> 
+
+    <mat-menu #aboveMenu="matMenu" yPosition="above"> 
+        <ng-template matMenuContent let-item="item">
+            <button
+                mat-menu-item
+                (click)="onReplyMessage(item)">
+                Reply
+            </button>
+            <button *ngIf="authService.getUserId() == item.senderId.toString()"
+                mat-menu-item
+                (click)="onEditMessage(item)">
+                Edit
+            </button>
+            <button *ngIf="authService.getUserId() == item.senderId.toString()"
+                mat-menu-item
+                (click)="onDeleteMessage(item)">
+                Delete
+            </button>
+        </ng-template>
+    </mat-menu> 
+
+
+    <div class="message-input-panel">
+        <div *ngIf="messageToEdit || messageToReply"
+            class="edit-reply-message-preview">
+            <div class="action-icon-wrapper">
+                <mat-icon *ngIf="messageToReply">reply</mat-icon>
+                <mat-icon *ngIf="messageToEdit">create</mat-icon>
+            </div>
+            <div class="action-info">
+                <div class="action-name">
+                    <span *ngIf="messageToReply">Reply message</span>
+                    <span *ngIf="messageToEdit">Edit message</span>
+                </div>
+                <div class="message-text">
+                    <span *ngIf="messageToReply">{{messageToReply.text}}</span>
+                    <span *ngIf="messageToEdit">{{messageToEdit.text}}</span>
+                </div>
+            </div>
+            <div class="cancel-button-wrapper">
+                <mat-icon *ngIf="messageToReply"
+                    (click)="onCancelReplyMessage()">
+                    clear
+                </mat-icon>
+                <mat-icon *ngIf="messageToEdit"
+                    (click)="onCancelEditMessage()">
+                    clear
+                </mat-icon>
+            </div>
+        </div>
+        <div class="chat-window-input">
+            <textarea 
+                class="message-input" 
+                placeholder="Write a message..."
+                matInput 
+                [(ngModel)]="messageTextInput"
+                (keydown.enter)="onSendMessage(messageTextInput)">
+            </textarea>
+            <mat-icon
+                *ngIf = "messageTextInput.trim()"
+                (click)="onSendMessage(messageTextInput)">
+                <mat-icon>send</mat-icon>
+            </mat-icon>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+.header-wrapper 
+{
+    display: flex;
+    min-height: 4vh;
+    background-color: #673ab7;
+    color: white;
+    padding: 10px 30px;
+    align-items: center;
+}
+
+.column
+{
+    display: flex;
+}
+
+.links-wrapper 
+{
+    margin: 0 30px;
+}
+
+.link-item 
+{
+    font-size: 20px;
+}
+
+.empty-column 
+{
+    flex: 1;
+}
+
+.title-wrapper
+{
+    font-size: 30px;
+}
+
+.profile-icon-wrapper 
+{
+    margin-left: 20px;
+}

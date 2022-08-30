@@ -1,0 +1,15 @@
+<div class="message-with-sender-icon">
+    <div class="profile-icon" *ngIf="message?.senderId != authService.getUserId()">
+        {{getProfileLetters(message?.senderName)}}
+    </div>
+    <div class="message-wrapper">
+        <div class="replied-message-wrapper">
+            <div class="sender-name">{{message?.repliedMessage?.senderName}}</div>
+            <div class="message-text">{{message?.repliedMessage?.text}}</div>
+        </div>
+        <div class="message-content">
+            <div class="message-text">{{message?.text}}</div>
+            <div class="message-sent-at">{{formatedMessageTime}}</div>
+        </div>
+    </div>
+</div>

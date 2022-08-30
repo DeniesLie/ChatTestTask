@@ -1,0 +1,49 @@
+.message-wrapper
+{
+    max-width: 50vw;
+    background-color: #4025b940;
+    padding: 10px;
+    width: fit-content;
+    border-radius: 10px;
+    margin: 10px 20px 0 10px;
+}
+
+.replied-message-wrapper 
+{
+    padding-left: 7px;
+    border-left: 4px solid #5a54d1;
+    margin-bottom: 8px;
+}
+
+.replied-message-wrapper > .sender-name {
+    font-weight: 500;
+    font-size: 17px;
+    color: #5a54d1;
+}
+
+.replied-message-wrapper > .message-text {
+    font-size: 16px;
+}
+
+.message-sent-at
+{
+    text-align: end;
+}
+
+.message-text 
+{
+    font-size: 19px;
+    margin-bottom: 8px;
+}
+
+.message-sent-at
+{
+    margin-left: 20px;
+}
+
+.message-with-sender-icon
+{
+    display: flex;
+    align-items: flex-end;
+    margin-left: 10px;
+}

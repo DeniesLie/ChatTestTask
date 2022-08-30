@@ -47,7 +47,7 @@ namespace DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserChtatrooms", x => new { x.UserId, x.ChatroomId });
+                    table.PrimaryKey("PK_UserChtatrooms", x => new { x.ChatroomId, x.UserId });
                     table.ForeignKey(
                         name: "FK_UserChtatrooms_Chatrooms_ChatroomId",
                         column: x => x.ChatroomId,
@@ -87,7 +87,7 @@ namespace DataAccess.Migrations
                         name: "FK_Messages_UserChtatrooms_ChatroomId_SenderId",
                         columns: x => new { x.ChatroomId, x.SenderId },
                         principalTable: "UserChtatrooms",
-                        principalColumns: new[] { "UserId", "ChatroomId" });
+                        principalColumns: new[] { "ChatroomId", "UserId" });
                 });
 
             migrationBuilder.InsertData(
@@ -109,12 +109,12 @@ namespace DataAccess.Migrations
                 columns: new[] { "Id", "IsActive", "PasswordHash", "Username" },
                 values: new object[,]
                 {
-                    { 1, true, "AQAAAAEAACcQAAAAEEKgEY9POY3wYUKMQNkypFFtPuR7LePDw0PvLQMe2L3ZMEt4QaL6XPTuUsAOFtjlIQ==", "Rick Sanchez" },
-                    { 2, true, "AQAAAAEAACcQAAAAENl6gcU0usQADYG8wNtF/eaN+VWDQsHE0wjrxlsz0Dk4OTJq+z3MmAV8Neg4ENO8Ng==", "Morty Smith" },
-                    { 3, true, "AQAAAAEAACcQAAAAEDkUuZ+EL11qvW8yXp9Su78otx+XV5mQeiItxG/cmwM0j2Fjj2Q/cLV1FVrF1VF6Rw==", "Jerry Smith" },
-                    { 4, true, "AQAAAAEAACcQAAAAEPyqGa96o35hzkVZp695Tw7THbbHqXOb8O03CXy2VSVCIF9wlJvXC2Szq8I9Wa1qLg==", "Walter White" },
-                    { 5, true, "AQAAAAEAACcQAAAAEApHyhGY2e7DO6BulwKHw+9StQKfVMX3K2fVLxiTe/EtcJyLPsitjCpEEMkZv7xVCg==", "Jesse Pinkman" },
-                    { 6, true, "AQAAAAEAACcQAAAAEFmcSP4756peXtybrp0ob1IBxMeBnnZy/t2ZxIf+xHAmk7DpfohjkmlDkvRPd9yVzw==", "Saul Goodman" }
+                    { 1, true, "AQAAAAEAACcQAAAAEEgANxKNg2hy8oRXUngzt5P9L6vUxxdUt3buOSq5Hc0vUgSJKpNgMR3HftgMpLi2/w==", "Rick Sanchez" },
+                    { 2, true, "AQAAAAEAACcQAAAAEP5Ojugck10+AbXTZQxeyLUuFSy8Y5kM2gYeVhsNPLQC7A9TQoOAFY8E9Ge7Fj/rVw==", "Morty Smith" },
+                    { 3, true, "AQAAAAEAACcQAAAAEKZdTehwvBrssXgaE5LDrgDELH48cMDE5v8KgTSV8spacVPnxxmLPkT88U+mRTiGWg==", "Jerry Smith" },
+                    { 4, true, "AQAAAAEAACcQAAAAEPRREPLCu1pII4tq95H5lnBl8ioHqeg2CRc9gMr8ITfsfGOEbb0VnrZvaGad6KJMfw==", "Walter White" },
+                    { 5, true, "AQAAAAEAACcQAAAAEJXi4SgxNPpG2fZjiNkjPOP4lpoeKeqEEXKLXVwnFxI7trsqCOpSGgJNR7i+sYferA==", "Jesse Pinkman" },
+                    { 6, true, "AQAAAAEAACcQAAAAEKzsKNG2MVOfKfRSe8b06gADF9ttDfZ1Xkl/RNTNYz1P/GdnvMrgyI+qbCeYRQMG9A==", "Saul Goodman" }
                 });
 
             migrationBuilder.InsertData(
@@ -123,20 +123,20 @@ namespace DataAccess.Migrations
                 values: new object[,]
                 {
                     { 1, 1 },
-                    { 6, 1 },
                     { 1, 2 },
                     { 2, 2 },
-                    { 6, 2 },
                     { 2, 3 },
-                    { 6, 3 },
                     { 3, 4 },
-                    { 4, 4 },
-                    { 7, 4 },
                     { 3, 5 },
-                    { 5, 5 },
-                    { 7, 5 },
+                    { 4, 4 },
                     { 4, 6 },
+                    { 5, 5 },
                     { 5, 6 },
+                    { 6, 1 },
+                    { 6, 2 },
+                    { 6, 3 },
+                    { 7, 4 },
+                    { 7, 5 },
                     { 7, 6 }
                 });
 
@@ -151,9 +151,9 @@ namespace DataAccess.Migrations
                 column: "RepliedMessageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserChtatrooms_ChatroomId",
+                name: "IX_UserChtatrooms_UserId",
                 table: "UserChtatrooms",
-                column: "ChatroomId");
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

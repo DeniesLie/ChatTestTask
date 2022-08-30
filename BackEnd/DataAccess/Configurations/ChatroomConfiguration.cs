@@ -10,6 +10,8 @@ public class ChatroomConfiguration : IEntityTypeConfiguration<Chatroom>
     {
         builder.HasKey(room => room.Id);
 
+        builder.Ignore(room => room.LastMessage);
+
         builder.ToTable("Chatrooms");
     }
 }

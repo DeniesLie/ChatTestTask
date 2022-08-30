@@ -148,140 +148,140 @@ namespace DataAccess.Migrations
                         {
                             Id = 1,
                             IsActive = true,
-                            PasswordHash = "AQAAAAEAACcQAAAAEEKgEY9POY3wYUKMQNkypFFtPuR7LePDw0PvLQMe2L3ZMEt4QaL6XPTuUsAOFtjlIQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEgANxKNg2hy8oRXUngzt5P9L6vUxxdUt3buOSq5Hc0vUgSJKpNgMR3HftgMpLi2/w==",
                             Username = "Rick Sanchez"
                         },
                         new
                         {
                             Id = 2,
                             IsActive = true,
-                            PasswordHash = "AQAAAAEAACcQAAAAENl6gcU0usQADYG8wNtF/eaN+VWDQsHE0wjrxlsz0Dk4OTJq+z3MmAV8Neg4ENO8Ng==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP5Ojugck10+AbXTZQxeyLUuFSy8Y5kM2gYeVhsNPLQC7A9TQoOAFY8E9Ge7Fj/rVw==",
                             Username = "Morty Smith"
                         },
                         new
                         {
                             Id = 3,
                             IsActive = true,
-                            PasswordHash = "AQAAAAEAACcQAAAAEDkUuZ+EL11qvW8yXp9Su78otx+XV5mQeiItxG/cmwM0j2Fjj2Q/cLV1FVrF1VF6Rw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKZdTehwvBrssXgaE5LDrgDELH48cMDE5v8KgTSV8spacVPnxxmLPkT88U+mRTiGWg==",
                             Username = "Jerry Smith"
                         },
                         new
                         {
                             Id = 4,
                             IsActive = true,
-                            PasswordHash = "AQAAAAEAACcQAAAAEPyqGa96o35hzkVZp695Tw7THbbHqXOb8O03CXy2VSVCIF9wlJvXC2Szq8I9Wa1qLg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPRREPLCu1pII4tq95H5lnBl8ioHqeg2CRc9gMr8ITfsfGOEbb0VnrZvaGad6KJMfw==",
                             Username = "Walter White"
                         },
                         new
                         {
                             Id = 5,
                             IsActive = true,
-                            PasswordHash = "AQAAAAEAACcQAAAAEApHyhGY2e7DO6BulwKHw+9StQKfVMX3K2fVLxiTe/EtcJyLPsitjCpEEMkZv7xVCg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJXi4SgxNPpG2fZjiNkjPOP4lpoeKeqEEXKLXVwnFxI7trsqCOpSGgJNR7i+sYferA==",
                             Username = "Jesse Pinkman"
                         },
                         new
                         {
                             Id = 6,
                             IsActive = true,
-                            PasswordHash = "AQAAAAEAACcQAAAAEFmcSP4756peXtybrp0ob1IBxMeBnnZy/t2ZxIf+xHAmk7DpfohjkmlDkvRPd9yVzw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKzsKNG2MVOfKfRSe8b06gADF9ttDfZ1Xkl/RNTNYz1P/GdnvMrgyI+qbCeYRQMG9A==",
                             Username = "Saul Goodman"
                         });
                 });
 
             modelBuilder.Entity("Core.Entities.UserChatroom", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ChatroomId")
                         .HasColumnType("int");
 
-                    b.HasKey("UserId", "ChatroomId");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("ChatroomId");
+                    b.HasKey("ChatroomId", "UserId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserChtatrooms", (string)null);
 
                     b.HasData(
                         new
                         {
-                            UserId = 1,
-                            ChatroomId = 1
+                            ChatroomId = 1,
+                            UserId = 1
                         },
                         new
                         {
-                            UserId = 2,
-                            ChatroomId = 1
+                            ChatroomId = 1,
+                            UserId = 2
                         },
                         new
                         {
-                            UserId = 2,
-                            ChatroomId = 2
+                            ChatroomId = 2,
+                            UserId = 2
                         },
                         new
                         {
-                            UserId = 3,
-                            ChatroomId = 2
+                            ChatroomId = 2,
+                            UserId = 3
                         },
                         new
                         {
-                            UserId = 4,
-                            ChatroomId = 3
+                            ChatroomId = 3,
+                            UserId = 4
                         },
                         new
                         {
-                            UserId = 5,
-                            ChatroomId = 3
+                            ChatroomId = 3,
+                            UserId = 5
                         },
                         new
                         {
-                            UserId = 4,
-                            ChatroomId = 4
+                            ChatroomId = 4,
+                            UserId = 4
                         },
                         new
                         {
-                            UserId = 6,
-                            ChatroomId = 4
+                            ChatroomId = 4,
+                            UserId = 6
                         },
                         new
                         {
-                            UserId = 5,
-                            ChatroomId = 5
+                            ChatroomId = 5,
+                            UserId = 5
                         },
                         new
                         {
-                            UserId = 6,
-                            ChatroomId = 5
+                            ChatroomId = 5,
+                            UserId = 6
                         },
                         new
                         {
-                            UserId = 1,
-                            ChatroomId = 6
+                            ChatroomId = 6,
+                            UserId = 1
                         },
                         new
                         {
-                            UserId = 2,
-                            ChatroomId = 6
+                            ChatroomId = 6,
+                            UserId = 2
                         },
                         new
                         {
-                            UserId = 3,
-                            ChatroomId = 6
+                            ChatroomId = 6,
+                            UserId = 3
                         },
                         new
                         {
-                            UserId = 4,
-                            ChatroomId = 7
+                            ChatroomId = 7,
+                            UserId = 4
                         },
                         new
                         {
-                            UserId = 5,
-                            ChatroomId = 7
+                            ChatroomId = 7,
+                            UserId = 5
                         },
                         new
                         {
-                            UserId = 6,
-                            ChatroomId = 7
+                            ChatroomId = 7,
+                            UserId = 6
                         });
                 });
 

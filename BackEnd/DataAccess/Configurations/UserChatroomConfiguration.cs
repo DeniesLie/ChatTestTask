@@ -8,7 +8,7 @@ public class UserChatroomConfiguration : IEntityTypeConfiguration<UserChatroom>
 {
     public void Configure(EntityTypeBuilder<UserChatroom> builder)
     {
-        builder.HasKey(userchatRoom => new { userchatRoom.UserId, userchatRoom.ChatroomId });
+        builder.HasKey(userchatRoom => new { userchatRoom.ChatroomId, userchatRoom.UserId });
 
         builder.HasOne(userChatRoom => userChatRoom.User)
             .WithMany(u => u.UserChatrooms)

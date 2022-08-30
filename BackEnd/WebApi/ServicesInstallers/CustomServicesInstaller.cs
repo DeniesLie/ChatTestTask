@@ -10,5 +10,6 @@ public static class CustomServicesInstaller
         services.AddScoped<IChatroomService, ChatroomService>();
         services.AddScoped<IMessageService, MessageService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<INotificationService, SignalrNotificationService>();
     }
 }

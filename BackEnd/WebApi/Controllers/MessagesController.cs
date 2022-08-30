@@ -6,7 +6,6 @@ using Core.VIewModels.Messages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using WebApi.Hubs;
 
 namespace WebApi.Controllers
 {
@@ -16,16 +15,13 @@ namespace WebApi.Controllers
     public class MessagesController : ControllerBase
     {
         private readonly IMessageService _messageService;
-        private readonly IHubContext<MessageHub> _hubContext;
         private readonly IMapper _mapper;
         
         public MessagesController(
             IMessageService messageService, 
-            IHubContext<MessageHub> hubContext, 
             IMapper mapper)
         {
             _messageService = messageService;
-            _hubContext = hubContext;
             _mapper = mapper;
         }
 
@@ -59,18 +55,16 @@ namespace WebApi.Controllers
                 messageGetVm);
         }
 
-        [HttpPost("sendToGroup")]
-        public async Task<ActionResult<MessageGetViewModel>> SendToGroupAsync(
+        [HttpPost("sendToChatroom")]
+        public async Task<ActionResult<MessageGetViewModel>> SendToChatroomAsync(
             [FromBody] MessageToChatroomSendViewModel messageModel)
         {
             int userId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             var message = _mapper.Map<Message>(messageModel);
             message.SenderId = userId;
             
-            await _messageService.CreateMessageToGroupAsync(message);
+            await _messageService.CreateMessageToChatroomAsync(message);
             
-            // TODO: add signalr call
-
             var messageGetVm = _mapper.Map<MessageGetViewModel>(message);
             
             return CreatedAtRoute("GetMessages",
@@ -104,7 +98,7 @@ namespace WebApi.Controllers
         {
             int userId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
-            await _messageService.DeleteForSenderOnlyAsync(messageId, userId);
+            await _messageService.DeleteForEveryoneAsync(messageId, userId);
 
             return NoContent();
         }

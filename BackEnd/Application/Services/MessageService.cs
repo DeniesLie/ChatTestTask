@@ -1,4 +1,5 @@
 using Core.Entities;
+using Core.Enums;
 using Core.Exceptions;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
@@ -10,11 +11,16 @@ public class MessageService : IMessageService
 {
     private readonly IMessageRepository _messageRepo;
     private readonly IChatroomService _chatroomService;
-
-    public MessageService(IMessageRepository messageRepo, IChatroomService chatroomService)
+    private readonly INotificationService _notificationService;
+    
+    public MessageService(
+        IMessageRepository messageRepo, 
+        IChatroomService chatroomService, 
+        INotificationService notificationService)
     {
         _messageRepo = messageRepo;
         _chatroomService = chatroomService;
+        _notificationService = notificationService;
     }
     
     public async Task<IEnumerable<Message>> GetAsync(int chatroomId, int readerId, int page)
@@ -30,10 +36,14 @@ public class MessageService : IMessageService
         
         if (!readerIsInChatroom)
             throw new UnauthorizedException();
-        
+
         return await _messageRepo.QueryAsync(
-            include: q => 
-                q.Include(m => m.RepliedMessage),
+            include: q =>
+                q.Include(m => m.RepliedMessage)
+                    .ThenInclude(m => m.UserChatroom)
+                        .ThenInclude(ur => ur.User)
+                 .Include(m => m.UserChatroom)
+                        .ThenInclude(ur => ur.User),
             filter: m => m.ChatroomId == chatroomId 
                          && !m.IsDeletedForEveryone 
                          && !(readerId == m.SenderId && m.IsDeletedForSender), // current reader is NOT a sender who deleted message for himself
@@ -58,25 +68,28 @@ public class MessageService : IMessageService
         
         await _messageRepo.CreateAsync(message);
         await _messageRepo.SaveChangesAsync();
+
+        await _notificationService.SendMessageAsync(message);
         
         return message;
     }
     
-    public async Task<Message> CreateMessageToGroupAsync(Message message)
+    public async Task<Message> CreateMessageToChatroomAsync(Message message)
     {
-        // check if public chatroom exist
         // TODO: add user check
         var chatroom = await _chatroomService.GetByIdAsync(message.ChatroomId);
         if (chatroom is null)
-            throw new NotFoundException($"Group chatroom with id {message.ChatroomId} was not found");
+            throw new NotFoundException($"Chatroom with id {message.ChatroomId} was not found");
         
-        // check if user is member of this group
+        // check if user is member of this chatroom
         if (!chatroom.UserChatrooms.Select(ur => ur.UserId).Contains(message.SenderId))
             throw new UnauthorizedException($"You can't write to a group you are not a member of");
         
         await _messageRepo.CreateAsync(message);
         await _messageRepo.SaveChangesAsync();
-        
+
+        await _notificationService.SendMessageAsync(message);
+
         return message;
     }
 
@@ -95,6 +108,8 @@ public class MessageService : IMessageService
         _messageRepo.Update(messageToUpdate);
         await _messageRepo.SaveChangesAsync();
 
+        await _notificationService.NotifyAboutMessageEditingAsync(messageToUpdate);
+        
         return messageToUpdate;
     }
 
@@ -126,5 +141,7 @@ public class MessageService : IMessageService
         messageToDelete.IsDeletedForEveryone = true;
         _messageRepo.Update(messageToDelete);
         await _messageRepo.SaveChangesAsync();
+
+        await _notificationService.NotifyAboutMessageDeletionAsync(messageToDelete);
     }
 }

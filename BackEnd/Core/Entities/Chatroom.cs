@@ -9,4 +9,5 @@ public class Chatroom
     public string? Name { get; set; }
 
     public IEnumerable<UserChatroom> UserChatrooms { get; set; } = new List<UserChatroom>();
+    public Message? LastMessage { get; set; }
 }

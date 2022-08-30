@@ -13,7 +13,9 @@ public class ChatroomService : IChatroomService
     private readonly IUserChatroomRepository _userChatroomRepo;
     private readonly IUserService _userService;
 
-    public ChatroomService(IChatroomRepository chatroomRepo, IUserChatroomRepository userChatroomRepo,
+    public ChatroomService(
+        IChatroomRepository chatroomRepo, 
+        IUserChatroomRepository userChatroomRepo,
         IUserService userService)
     {
         _chatroomRepo = chatroomRepo;
@@ -42,13 +44,30 @@ public class ChatroomService : IChatroomService
         if (user is null)
             throw new NotFoundException($"User with id {userId} was not found");
 
-        return (await _userChatroomRepo
-                .QueryAsync(
-                    filter: ur => ur.UserId == userId,
-                    include: q =>
-                        q.Include(ur => ur.Chatroom),
-                    asNoTracking: true))
-            .Select(ur => ur.Chatroom);
+        var chatrooms = await _chatroomRepo.QueryAsync(
+            include: q => q
+                .Include(cr => cr.UserChatrooms)
+                    .ThenInclude(ur => ur.Messages)
+                .Include(cr => cr.UserChatrooms)
+                    .ThenInclude(ur => ur.User),
+            filter: cr => cr.UserChatrooms.Any(ur => ur.UserId == userId),
+            asNoTracking: true);
+
+        foreach (var chatroom in chatrooms)
+        {
+            chatroom.LastMessage = chatroom.UserChatrooms
+                .SelectMany(ur => ur.Messages)
+                .Where(m => !m.IsDeletedForEveryone && !(m.IsDeletedForSender && m.SenderId == userId))
+                .MaxBy(m => m.SentAt);
+            
+            if (chatroom.Type == ChatType.Private)
+            {
+                chatroom.Name = chatroom.UserChatrooms.Select(ur => ur.User.Username)
+                    .FirstOrDefault(name => name != user.Username);
+            }
+        }
+
+        return chatrooms;
     }
 
     public async Task<Chatroom?> GetByIdAsync(int chatroomId)

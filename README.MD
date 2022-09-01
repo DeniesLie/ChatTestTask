@@ -1,11 +1,29 @@
-# Used tech stack
-ASP.NET Core 6.0, SQL Server, EntityFramework Core, SignalR, FluentValidation, Serilog.
-
 # How to run the app
-Docker Compose is used to run the app.
+Go to project root folder and run: `docker-compose up`
+Database migrations should be executed automatically
 
-# Hosting strategy
-To run containers I've used Azure Container Instances service.
+# App usage
+1) After all services are up and running in docker-compose, got to localhost:9000 - this port is mapped to nginx container that serves angular app.
+
+    :warning: **nginx is not configured as reverse proxy so direct routing via browser's adress bar is not working yet and may redirect to not found page**
+
+2) Login as one of the following users:
+    - Rick Sanchez
+    - Morty Smith
+    - Jerry Smith
+    - Walter White
+    - Saul Goodman
+    
+    Passwords are same for each user: **HelloWorld123**
+
+3) select any chat and start messaging. You can:
+    - send both private and group messages
+    - reply, edit, and delete messages in **telegram-like manner**
+
+# Used tech stack
+Frontend: Angular+TypeScript, Angular Material
+
+Backend: ASP.NET Core 6.0, SQL Server, EntityFramework Core, SignalR, FluentValidation, IdentityServer, Docker, Docker-compose
 
 # WEB API
 
@@ -78,14 +96,3 @@ To run containers I've used Azure Container Instances service.
     - 401 *invalid username or password* 
 
     <br/>    
-
-## schemas
-**messages**
-- PostPrivateMessageViewModel 
-- PostGroupMessageViewModel
-- GetMessageViewModel
-- PutMessageViewModel
-<br/>
-
-**chatrooms**
-- GetChatroomViewModel

@@ -5,7 +5,9 @@ namespace WebApi.ServicesInstallers;
 
 public static class ServiceInstaller
 {
-    public static void InstallServices(this IServiceCollection services, IConfiguration config)
+    public static void InstallServices(
+        this IServiceCollection services, 
+        IConfiguration config)
     {
         services.AddAutoMapper(typeof(Program).Assembly);
         services.AddEFDbContext(config);

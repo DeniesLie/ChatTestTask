@@ -23,6 +23,8 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
             .HasForeignKey(m => m.RepliedMessageId)
             .OnDelete(DeleteBehavior.NoAction);
 
+        builder.Ignore(m => m.SenderName);
+
         builder.ToTable("Messages");
     }
 }

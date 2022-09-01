@@ -23,9 +23,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.ConfigureCustomExceptionMiddleware();
+app.ApplyDbMigration();
 
-app.UseHttpsRedirection();
+app.ConfigureCustomExceptionMiddleware();
 
 app.UseCors("AngularClientPolicy");
 app.UseAuthentication();

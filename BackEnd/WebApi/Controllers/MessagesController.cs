@@ -15,13 +15,16 @@ namespace WebApi.Controllers
     public class MessagesController : ControllerBase
     {
         private readonly IMessageService _messageService;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
         
         public MessagesController(
             IMessageService messageService, 
+            IUserService userService,
             IMapper mapper)
         {
             _messageService = messageService;
+            _userService = userService;
             _mapper = mapper;
         }
 
@@ -45,11 +48,9 @@ namespace WebApi.Controllers
             message.SenderId = userId;
             
             await _messageService.CreatePrivateMessageAsync(message, messageModel.ReceiverId);
-            
-            // TODO: add singalr call
-
+        
             var messageGetVm = _mapper.Map<MessageGetViewModel>(message);
-            
+
             return CreatedAtRoute("GetMessages",
                 new {chatRoomId = message.ChatroomId, page = 1}, 
                 messageGetVm);
@@ -66,7 +67,7 @@ namespace WebApi.Controllers
             await _messageService.CreateMessageToChatroomAsync(message);
             
             var messageGetVm = _mapper.Map<MessageGetViewModel>(message);
-            
+
             return CreatedAtRoute("GetMessages",
                 new {chatRoomId = message.ChatroomId, page = 1}, 
                 messageGetVm);

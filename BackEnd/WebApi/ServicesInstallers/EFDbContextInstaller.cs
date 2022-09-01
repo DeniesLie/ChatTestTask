@@ -5,9 +5,12 @@ namespace WebApi.ServicesInstallers;
 
 public static class EFDbContextInstaller
 {
-    public static void AddEFDbContext(this IServiceCollection services, IConfiguration config)
+    public static void AddEFDbContext(
+        this IServiceCollection services, 
+        IConfiguration config)
     {
-        services.AddDbContext<AppDbContext>(opts =>
-            opts.UseSqlServer(config.GetConnectionString("Default")));
+        services.AddDbContext<AppDbContext>(opts =>{ 
+            opts.UseSqlServer(config.GetConnectionString("Default"));
+        });
     }
 }

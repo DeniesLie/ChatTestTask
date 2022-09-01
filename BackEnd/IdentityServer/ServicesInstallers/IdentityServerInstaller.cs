@@ -5,9 +5,12 @@ namespace IdentityServer.ServicesInstallers;
 
 public static class IdentityServerInstaller
 {
-    public static void AddIdentityServerWithConfigurations(this IServiceCollection services, IConfiguration config)
+    public static void AddIdentityServerWithConfigurations(
+        this IServiceCollection services, 
+        IConfiguration config)
     {
-        services.AddIdentityServer()
+        services.AddIdentityServer(opts => 
+            {opts.IssuerUri = "http://identityserver:80";})
             .AddDeveloperSigningCredential() // TODO : change on production
             .AddInMemoryIdentityResources(Config.GetIdentityResources())
             .AddInMemoryApiResources(Config.GetApiResources())

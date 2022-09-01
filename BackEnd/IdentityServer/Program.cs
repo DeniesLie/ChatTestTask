@@ -11,10 +11,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
-builder.Services.AddIdentityServerWithConfigurations(builder.Configuration);
+
+builder.Services.AddIdentityServerWithConfigurations(
+    builder.Configuration);
 
 var app = builder.Build();
 
+app.UseCors(builder => builder
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
+
 app.UseIdentityServer();
 
-app.Run(builder.Configuration["AppUrl"]);
+app.Run();

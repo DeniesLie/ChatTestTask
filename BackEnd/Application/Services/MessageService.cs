@@ -12,15 +12,18 @@ public class MessageService : IMessageService
     private readonly IMessageRepository _messageRepo;
     private readonly IChatroomService _chatroomService;
     private readonly INotificationService _notificationService;
-    
+    private readonly IUserService _userService;
+
     public MessageService(
         IMessageRepository messageRepo, 
         IChatroomService chatroomService, 
-        INotificationService notificationService)
+        INotificationService notificationService,
+        IUserService userService)
     {
         _messageRepo = messageRepo;
         _chatroomService = chatroomService;
         _notificationService = notificationService;
+        _userService = userService;
     }
     
     public async Task<IEnumerable<Message>> GetAsync(int chatroomId, int readerId, int page)
@@ -56,6 +59,9 @@ public class MessageService : IMessageService
     public async Task<Message?> GetByIdAsync(int messageId)
     {
         return await _messageRepo.GetFirstOrDefaultAsync(
+            include: q => q.Include(m => m.RepliedMessage) 
+                         .Include(m => m.UserChatroom)
+                            .ThenInclude(ur => ur.User),
             filter: m => m.Id == messageId,
             asNoTracking: true);
     }
@@ -76,7 +82,6 @@ public class MessageService : IMessageService
     
     public async Task<Message> CreateMessageToChatroomAsync(Message message)
     {
-        // TODO: add user check
         var chatroom = await _chatroomService.GetByIdAsync(message.ChatroomId);
         if (chatroom is null)
             throw new NotFoundException($"Chatroom with id {message.ChatroomId} was not found");
@@ -87,6 +92,8 @@ public class MessageService : IMessageService
         
         await _messageRepo.CreateAsync(message);
         await _messageRepo.SaveChangesAsync();
+
+        message.SenderName = (await _userService.GetByIdAsync(message.SenderId))?.Username;
 
         await _notificationService.SendMessageAsync(message);
 

@@ -14,6 +14,7 @@ public class Message
     public IEnumerable<Message> Replies { get; set; } = new List<Message>();
     
     public int SenderId { get; set; }
+    public string? SenderName { get; set; }
     public int ChatroomId { get; set; }
     public UserChatroom? UserChatroom { get; set; }
 }

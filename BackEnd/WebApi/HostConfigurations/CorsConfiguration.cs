@@ -11,9 +11,9 @@ public static class CorsConfiguration
         {
             opts.AddPolicy(name: "AngularClientPolicy", policy =>
             {
-                policy.WithOrigins(config["AngularClient:Url"]);
-                policy.WithHeaders("*");
-                policy.WithMethods("*");
+                policy.AllowAnyHeader();
+                policy.AllowAnyMethod();
+                policy.SetIsOriginAllowed(origin => true);
                 policy.AllowCredentials();
             });
         });

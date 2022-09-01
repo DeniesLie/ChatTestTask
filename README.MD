@@ -87,12 +87,4 @@ Backend: ASP.NET Core 6.0, SQL Server, EntityFramework Core, SignalR, FluentVali
     - 200 
     - 401
 
-    <br/>
-**auth:**
-- <mark style="background-color: #49cc90">POST</mark>
-    **/auth/login |** *login into account by username and password*<br/>
-    | Responses:
-    - 200
-    - 401 *invalid username or password* 
-
-    <br/>    
+    <br/> 

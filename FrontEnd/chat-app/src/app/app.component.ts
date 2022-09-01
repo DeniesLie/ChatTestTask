@@ -1,18 +1,10 @@
-import { Component, OnDestroy } from '@angular/core';
-import { AuthService } from './features/auth/services/auth-service/auth.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnDestroy {
-  
+export class AppComponent {
   title = 'chat-app';
-
-  constructor(private authService: AuthService) {}
-
-  ngOnDestroy(): void {
-    this.authService.logout();
-  }
 }

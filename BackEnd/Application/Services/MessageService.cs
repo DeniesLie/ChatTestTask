@@ -94,6 +94,9 @@ public class MessageService : IMessageService
         await _messageRepo.SaveChangesAsync();
 
         message.SenderName = (await _userService.GetByIdAsync(message.SenderId))?.Username;
+        
+        if (message.RepliedMessageId is not null)
+            message.RepliedMessage = (await GetByIdAsync(message.RepliedMessageId.Value));
 
         await _notificationService.SendMessageAsync(message);
 

@@ -1,5 +1,5 @@
 # How to run the app
-Go to project root folder and run: `docker-compose up`
+Go to project root folder and run: `docker-compose up`. 
 Database migrations should be executed automatically
 
 # App usage

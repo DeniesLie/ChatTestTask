@@ -7,13 +7,13 @@ namespace DataAccess.Repositories;
 
 public class Repository<T> : IRepository<T> where T : class
 {
-    private readonly AppDbContext _dbContext;
+    protected readonly AppDbContext DbContext;
     protected readonly DbSet<T> DbSet;
 
     public Repository(AppDbContext dbContext)
     {
-        _dbContext = dbContext;
-        DbSet = _dbContext.Set<T>();
+        DbContext = dbContext;
+        DbSet = DbContext.Set<T>();
     }
     
     public async Task<IList<T>> QueryAsync(
@@ -66,22 +66,22 @@ public class Repository<T> : IRepository<T> where T : class
 
     public void Update(T entity)
     {
-        if (_dbContext.Entry(entity).State == EntityState.Detached)
-            _dbContext.Attach(entity);
+        if (DbContext.Entry(entity).State == EntityState.Detached)
+            DbContext.Attach(entity);
 
-        _dbContext.Entry(entity).State = EntityState.Modified;
+        DbContext.Entry(entity).State = EntityState.Modified;
     }
 
     public void Delete(T entity)
     {
-        if (_dbContext.Entry(entity).State == EntityState.Detached)
-            _dbContext.Attach(entity);
+        if (DbContext.Entry(entity).State == EntityState.Detached)
+            DbContext.Attach(entity);
 
-        _dbContext.Entry(entity).State = EntityState.Modified;
+        DbContext.Entry(entity).State = EntityState.Modified;
     }
 
     public async Task SaveChangesAsync()
     {
-        await _dbContext.SaveChangesAsync();
+        await DbContext.SaveChangesAsync();
     }
 }

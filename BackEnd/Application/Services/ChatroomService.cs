@@ -44,22 +44,10 @@ public class ChatroomService : IChatroomService
         if (user is null)
             throw new NotFoundException($"User with id {userId} was not found");
 
-        var chatrooms = await _chatroomRepo.QueryAsync(
-            include: q => q
-                .Include(cr => cr.UserChatrooms)
-                    .ThenInclude(ur => ur.Messages)
-                .Include(cr => cr.UserChatrooms)
-                    .ThenInclude(ur => ur.User),
-            filter: cr => cr.UserChatrooms.Any(ur => ur.UserId == userId),
-            asNoTracking: true);
+        var chatrooms = await _chatroomRepo.GetChatroomsByUserId(userId);
 
         foreach (var chatroom in chatrooms)
-        {
-            chatroom.LastMessage = chatroom.UserChatrooms
-                .SelectMany(ur => ur.Messages)
-                .Where(m => !m.IsDeletedForEveryone && !(m.IsDeletedForSender && m.SenderId == userId))
-                .MaxBy(m => m.SentAt);
-            
+        {            
             if (chatroom.Type == ChatType.Private)
             {
                 chatroom.Name = chatroom.UserChatrooms.Select(ur => ur.User.Username)
